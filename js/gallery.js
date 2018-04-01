@@ -13,7 +13,7 @@
 
 // example code from mr doob : http://mrdoob.com/lab/javascript/requestanimationframe/
 
-animate();
+
 
 var mLastFrameTime = 0;
 var mWaitTime = 5000; //time in ms
@@ -39,7 +39,15 @@ function swapPhoto() {
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded 
 	//from the JSON string
-	console.log('swap photo');
+	console.log('swap photo ');
+			var max = totalImage - 1;
+	if (mCurrentIndex == max) mCurrentIndex = 0;
+	else mCurrentIndex = mCurrentIndex + 1;
+	
+	$('.thumbnail').attr("src",mImages[mCurrentIndex].img);
+		$('#spnLocation').text(mImages[mCurrentIndex].location);
+		$('#spnDescription').text(mImages[mCurrentIndex].description);
+		$('#spnDate').text(mImages[mCurrentIndex].date);
 }
 
 // Counter for the mImages array
@@ -58,6 +66,7 @@ try {
 // Let’s try and see if we can parse JSON
 //mJson = JSON.parse(mRequest.responseText);
 getArray(JSON.parse(mRequest.responseText));
+animate();
 // Let’s print out the JSON; It will likely show as "obj"
 //console.log(mJson);
 } catch(err) {
@@ -74,14 +83,19 @@ mRequest.send();
 // Array holding GalleryImage objects (see below).
 var mImages = [];
 var totalImage = 0;
+var showDetails = false;
 function getArray(data){
 	for(var x in data.images){
 		var imagenes = new GalleryImage(data.images[x].imgPath,data.images[x].imgLocation,data.images[x].description,data.images[x].date);
 	  	mImages.push(imagenes);
 	  	totalImage++;
 	}	
-	console.log(mImages);
-	$('.thumbnail').attr("src",mImages[0].location);
+	//console.log(mImages);
+	$('.thumbnail').attr("src",mImages[0].img);
+	$('#spnLocation').text(mImages[0].location);
+	$('#spnDescription').text(mImages[0].description);
+	$('#spnDate').text(mImages[0].date);
+
 	$(document).ready( function() {
 	
 	// This initially hides the photos' metadata information
@@ -89,8 +103,10 @@ function getArray(data){
 	$('#prevPhoto').click(function(){
 		if (mCurrentIndex == 0) mCurrentIndex = (totalImage - 1);
 		else mCurrentIndex = mCurrentIndex - 1;
-		//mCurrentIndex++;
-		$('.thumbnail').attr("src",mImages[mCurrentIndex].location);
+		$('.thumbnail').attr("src",mImages[mCurrentIndex].img);
+		$('#spnLocation').text(mImages[mCurrentIndex].location);
+		$('#spnDescription').text(mImages[mCurrentIndex].description);
+		$('#spnDate').text(mImages[mCurrentIndex].date);
 
 	});
 	$('#nextPhoto').click(function(){
@@ -98,9 +114,22 @@ function getArray(data){
 	if (mCurrentIndex == max) mCurrentIndex = 0;
 	else mCurrentIndex = mCurrentIndex + 1;
 	
-	$('.thumbnail').attr("src",mImages[mCurrentIndex].location);
+	$('.thumbnail').attr("src",mImages[mCurrentIndex].img);
+		$('#spnLocation').text(mImages[mCurrentIndex].location);
+		$('#spnDescription').text(mImages[mCurrentIndex].description);
+		$('#spnDate').text(mImages[mCurrentIndex].date);
 
 	});
+	$('.moreIndicator').click(function(){
+		if (showDetails) {
+			$('.details').eq(0).hide();
+			showDetails = false;
+		} else{
+			$('.details').eq(0).show();
+			showDetails = true;
+		}
+	});
+
 	
 	});
 }
@@ -132,7 +161,7 @@ window.addEventListener('load', function() {
 
 }, false);
 
-function GalleryImage(location, description, date, img) {
+function GalleryImage(img, location, description, date) {
 	this.location = location;
 	this.description = description;
 	this.date = date;
