@@ -32,9 +32,6 @@ function animate() {
 
 
 
-
-
-
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 
 function swapPhoto() {
@@ -51,6 +48,7 @@ var mCurrentIndex = 0;
 
 
 // XMLHttpRequest variable
+//var mRequest = new XMLHttpRequest();
 var mURL = "images.json";
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
@@ -58,9 +56,10 @@ mRequest.onreadystatechange = function() {
 if (mRequest.readyState == 4 && mRequest.status == 200) {
 try {
 // Let’s try and see if we can parse JSON
-mJson = JSON.parse(mRequest.responseText);
+//mJson = JSON.parse(mRequest.responseText);
+getArray(JSON.parse(mRequest.responseText));
 // Let’s print out the JSON; It will likely show as "obj"
-console.log(mJson);
+//console.log(mJson);
 } catch(err) {
 console.log(err.message)
 }
@@ -74,6 +73,40 @@ mRequest.send();
 
 // Array holding GalleryImage objects (see below).
 var mImages = [];
+var totalImage = 0;
+function getArray(data){
+	for(var x in data.images){
+		var imagenes = new GalleryImage(data.images[x].imgPath,data.images[x].imgLocation,data.images[x].description,data.images[x].date);
+	  	mImages.push(imagenes);
+	  	totalImage++;
+	}	
+	console.log(mImages);
+	$('.thumbnail').attr("src",mImages[0].location);
+	$(document).ready( function() {
+	
+	// This initially hides the photos' metadata information
+	$('.details').eq(0).hide();
+	$('#prevPhoto').click(function(){
+		if (mCurrentIndex == 0) mCurrentIndex = (totalImage - 1);
+		else mCurrentIndex = mCurrentIndex - 1;
+		//mCurrentIndex++;
+		$('.thumbnail').attr("src",mImages[mCurrentIndex].location);
+
+	});
+	$('#nextPhoto').click(function(){
+		var max = totalImage - 1;
+	if (mCurrentIndex == max) mCurrentIndex = 0;
+	else mCurrentIndex = mCurrentIndex + 1;
+	
+	$('.thumbnail').attr("src",mImages[mCurrentIndex].location);
+
+	});
+	
+	});
+}
+
+
+
 
 // Holds the retrived JSON information
 var mJson;
@@ -92,23 +125,16 @@ function makeGalleryImageOnloadCallback(galleryImage) {
 	}
 }
 
-$(document).ready( function() {
-	
-	// This initially hides the photos' metadata information
-	$('.details').eq(0).hide();
-	
-});
 
 window.addEventListener('load', function() {
 	
-	console.log('window loaded');
+	//console.log('window loaded');
 
 }, false);
 
-function GalleryImage() {
-	//implement me as an object to hold the following data about an image:
-	//1. location where photo was taken
-	//2. description of photo
-	//3. the date when the photo was taken
-	//4. either a String (src URL) or an an HTMLImageObject (bitmap of the photo. https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement)
+function GalleryImage(location, description, date, img) {
+	this.location = location;
+	this.description = description;
+	this.date = date;
+	this.img = img;		
 }
