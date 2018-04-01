@@ -30,6 +30,11 @@ function animate() {
 	}
 }
 
+
+
+
+
+
 /************* DO NOT TOUCH CODE ABOVE THIS LINE ***************/
 
 function swapPhoto() {
@@ -43,8 +48,29 @@ function swapPhoto() {
 // Counter for the mImages array
 var mCurrentIndex = 0;
 
+
+
 // XMLHttpRequest variable
+var mURL = "images.json";
 var mRequest = new XMLHttpRequest();
+mRequest.onreadystatechange = function() {
+// Do something interesting if file is opened successfully
+if (mRequest.readyState == 4 && mRequest.status == 200) {
+try {
+// Let’s try and see if we can parse JSON
+mJson = JSON.parse(mRequest.responseText);
+// Let’s print out the JSON; It will likely show as "obj"
+console.log(mJson);
+} catch(err) {
+console.log(err.message)
+}
+}
+};
+mRequest.open("GET",mURL, true);
+mRequest.send();
+
+
+
 
 // Array holding GalleryImage objects (see below).
 var mImages = [];
