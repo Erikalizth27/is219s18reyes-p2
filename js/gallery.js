@@ -39,7 +39,7 @@ function swapPhoto() {
 	//Access the img element and replace its source
 	//with a new image from your images array which is loaded 
 	//from the JSON string
-	console.log('swap photo ');
+	//console.log('swap photo ');
 			var max = totalImage - 1;
 	if (mCurrentIndex == max) mCurrentIndex = 0;
 	else mCurrentIndex = mCurrentIndex + 1;
@@ -54,10 +54,28 @@ function swapPhoto() {
 var mCurrentIndex = 0;
 
 
+function getQueryParams(qs) {
+  qs = qs.split("+").join(" ");
+  var params = {},
+  tokens,
+ re = /[?&]?([^=]+)=([^&]*)/g;
+ while (tokens = re.exec(qs)) {
+  params[decodeURIComponent(tokens[1])]
+  = decodeURIComponent(tokens[2]);
+  }
+  return params;
+ }
+ var $_GET = getQueryParams(document.location.search);
 
 // XMLHttpRequest variable
 //var mRequest = new XMLHttpRequest();
-var mURL = "images.json";
+var mURL = "";
+if (JSON.stringify($_GET) !='{}'){
+	console.log($_GET.json);
+	if ($_GET.json == "images.json" || $_GET.json == "") mURL = "images.json";
+	else mURL = $_GET.json;
+} else mURL = "images.json";
+
 var mRequest = new XMLHttpRequest();
 mRequest.onreadystatechange = function() {
 // Do something interesting if file is opened successfully
@@ -70,7 +88,8 @@ animate();
 // Let’s print out the JSON; It will likely show as "obj"
 //console.log(mJson);
 } catch(err) {
-console.log(err.message)
+console.log(err.message);
+
 }
 }
 };
