@@ -1,0 +1,36 @@
+{
+    "images": [
+        
+        {
+            "imgPath": "img/places/peru.jpg",
+            "imgLocation": "Peru",
+            "description": "Machu Picchu",
+            "date": "01/04/2016"
+        },
+        {
+            "imgPath": "img/places/canada.jpg",
+            "imgLocation": "Canada",
+            "description": "Niagara Falls",
+            "date": "01/05/2016"
+        },
+        {
+            "imgPath": "img/places/brazil.jpg",
+            "imgLocation": "Brazil",
+            "description": "Rio de Janeiro",
+            "date": "01/06/2016"
+        },
+        {
+            "imgPath": "img/places/argentina.jpg",
+            "imgLocation": "Argentina",
+            "description": "Iguazu Falls",
+            "date": "01/07/2016"
+        },
+        
+        {
+            "imgPath": "img/places/bolivia.jpg",
+            "imgLocation": "Bolivia",
+            "description": "Lake Titicaca",
+            "date": "01/13/2016"
+        }
+  ]
+}
