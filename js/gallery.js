@@ -123,9 +123,13 @@ function getArray(data){
 	$('.moreIndicator').click(function(){
 		if (showDetails) {
 			$('.details').eq(0).hide();
+			$(this).removeClass('rot270');
+			$(this).addClass('rot90');
 			showDetails = false;
 		} else{
 			$('.details').eq(0).show();
+			$(this).removeClass('rot90');
+			$(this).addClass('rot270');
 			showDetails = true;
 		}
 	});
